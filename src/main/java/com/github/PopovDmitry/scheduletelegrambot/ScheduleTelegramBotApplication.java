@@ -10,11 +10,12 @@ import java.io.IOException;
 @SpringBootApplication(exclude={DataSourceAutoConfiguration.class})
 public class ScheduleTelegramBotApplication {
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
 		SpringApplication.run(ScheduleTelegramBotApplication.class, args);
 
 		ScheduleParser scheduleParser = new ScheduleParser();
-
+		scheduleParser.parseGroups();
+		scheduleParser.parseSchedule("АВТ-809", Day.MONDAY);
 	}
 
 }
