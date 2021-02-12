@@ -23,12 +23,12 @@ public class ScheduleParser {
 
     }
 
-    public void parseSchedule(String groupName, Day day) throws Exception {
+    public String parseSchedule(String groupName, Day day) throws Exception {
         if (!groups.containsKey(groupName)) {
             throw new Exception("Group not found");
         }
         Document document = Jsoup.connect(groups.get(groupName)).get();
-        System.out.println(groups.get(groupName));
+        //System.out.println(groups.get(groupName));
         Elements fullTable = document.getElementsByAttributeValue("class", "schedule__table-body");
         Elements subjectsElements = fullTable.get(0).child(day.ordinal()).child(1).children();
         //System.out.println(subjectsElements.toString());
@@ -50,7 +50,13 @@ public class ScheduleParser {
 
                     subjectTeacherRoom = currentSubject.child(0).child(0).text();
                     teacher = currentSubject.child(0).child(0).child(0).text();
-                    room = currentSubject.child(0).child(0).child(1).text();
+                    if (teacher.equalsIgnoreCase("спорткомплекс")) {
+                        room = teacher;
+                        teacher = " - ";
+                    }
+                    else {
+                        room = currentSubject.child(0).child(0).child(1).text();
+                    }
 
                     subject = subjectTeacherRoom.replace( " · " + teacher + " " + room, "");
                 }
@@ -80,8 +86,10 @@ public class ScheduleParser {
 
         }
 
-        System.out.println(schedule.toString());
+        return schedule.toString();
     }
+
+
 
 }
 
@@ -91,6 +99,14 @@ enum Day {
     WEDNESDAY,
     THURSDAY,
     FRIDAY,
-    SATURDAY
+    SATURDAY;
+    enum Ru {
+        ПОНЕДЕЛЬНИК,
+        ВТОРНИК,
+        СРЕДА,
+        ЧЕТВЕРГ,
+        ПЯТНИЦА,
+        СУББОТА
+    }
 }
 
