@@ -31,7 +31,7 @@ public class ScheduleParser {
         //System.out.println(groups.get(groupName));
         Elements fullTable = document.getElementsByAttributeValue("class", "schedule__table-body");
         Elements subjectsElements = fullTable.get(0).child(day.ordinal()).child(1).children();
-        //System.out.println(subjectsElements.toString());
+
         StringBuilder schedule = new StringBuilder();
         for(int i = 0; i < subjectsElements.size(); i++) {
             if(subjectsElements.get(i).child(1).child(0).child(0).child(0).text().isEmpty()) { //проверка поля названия предмета на пустоту
@@ -49,16 +49,23 @@ public class ScheduleParser {
                     currentSubject = innerSubjects.get(j);
 
                     subjectTeacherRoom = currentSubject.child(0).child(0).text();
-                    teacher = currentSubject.child(0).child(0).child(0).text();
-                    if (teacher.equalsIgnoreCase("спорткомплекс")) {
-                        room = teacher;
-                        teacher = " - ";
+                    if(currentSubject.child(0).child(0).childrenSize() == 2) {
+                        teacher = currentSubject.child(0).child(0).child(0).text().trim();
+                        room = currentSubject.child(0).child(0).child(1).text().trim();
                     }
-                    else {
-                        room = currentSubject.child(0).child(0).child(1).text();
+                    if(currentSubject.child(0).child(0).childrenSize() == 1) {
+                        if(currentSubject.child(0).child(0).child(0).hasClass("schedule__table-class")) {
+                            room = currentSubject.child(0).child(0).child(0).text().trim();
+                        }
+                        else {
+                            teacher = currentSubject.child(0).child(0).child(0).text().trim();
+                        }
                     }
 
-                    subject = subjectTeacherRoom.replace( " · " + teacher + " " + room, "");
+                    subject = subjectTeacherRoom.replace( " · ", "")
+                                                .replace(teacher, "")
+                                                .replace(room, "")
+                                                .trim();
                 }
                 if(innerSubjects.get(j).child(0).child(0).child(0).attr("data-week").equalsIgnoreCase("current")) {
                     currentSubject = innerSubjects.get(j);
@@ -68,7 +75,11 @@ public class ScheduleParser {
                     room = currentSubject.child(0).child(0).child(2).text();
                     dataWeek = innerSubjects.get(j).child(0).child(0).child(0).text();
 
-                    subject = subjectTeacherRoom.replace( " · " + teacher + " " + room, "").replace(dataWeek + " ", "");
+                    subject = subjectTeacherRoom.replace( " · " + teacher + " " + room, "")
+                                                .replace(teacher, "")
+                                                .replace(room, "")
+                                                .replace(dataWeek + " ", "")
+                                                .trim();
                 }
 
                 if(currentSubject != null) {
