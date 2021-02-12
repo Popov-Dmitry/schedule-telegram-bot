@@ -89,7 +89,19 @@ public class ScheduleParser {
         return schedule.toString();
     }
 
+    public String weekSchedule(String groupName) throws Exception {
+        StringBuilder schedule = new StringBuilder();
+        for(int i = 0; i < Day.values().length; i++) {
+            schedule.append("------")
+                    .append(Day.Ru.values()[i].toString())
+                    .append("------")
+                    .append("\n")
+                    .append(parseSchedule(groupName, Day.values()[i]))
+                    .append("\n");
+        }
 
+        return schedule.toString();
+    }
 
 }
 

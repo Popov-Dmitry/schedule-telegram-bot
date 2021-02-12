@@ -15,7 +15,8 @@ public class ScheduleTelegramBotApplication {
 
 		ScheduleParser scheduleParser = new ScheduleParser();
 		scheduleParser.parseGroups();
-		scheduleParser.parseSchedule("АВТ-809", Day.MONDAY);
+		//scheduleParser.parseSchedule("АВТ-809", Day.MONDAY);
+		System.out.println(scheduleParser.weekSchedule("АВТ-809"));
 	}
 
 }
