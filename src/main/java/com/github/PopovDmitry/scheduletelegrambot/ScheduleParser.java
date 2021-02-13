@@ -49,16 +49,33 @@ public class ScheduleParser {
                     currentSubject = innerSubjects.get(j);
 
                     subjectTeacherRoom = currentSubject.child(0).child(0).text();
-                    if(currentSubject.child(0).child(0).childrenSize() == 2) {
+                    int childrenSize = currentSubject.child(0).child(0).childrenSize();
+                    if(childrenSize == 2) {
                         teacher = currentSubject.child(0).child(0).child(0).text().trim();
                         room = currentSubject.child(0).child(0).child(1).text().trim();
                     }
-                    if(currentSubject.child(0).child(0).childrenSize() == 1) {
+                    if(childrenSize == 1) {
                         if(currentSubject.child(0).child(0).child(0).hasClass("schedule__table-class")) {
                             room = currentSubject.child(0).child(0).child(0).text().trim();
                         }
                         else {
                             teacher = currentSubject.child(0).child(0).child(0).text().trim();
+                        }
+                    }
+                    if(childrenSize > 2) {
+                        if(currentSubject.child(0).child(0).child(childrenSize - 1).hasClass("schedule__table-class")) {
+                            room = currentSubject.child(0).child(0).child(childrenSize - 1).text().trim();
+                            teacher = currentSubject.child(0).child(0).child(0).text().trim();
+                            for (int t = 1; t < childrenSize - 1; t++) {
+                                teacher += ", ";
+                                teacher += currentSubject.child(0).child(0).child(t).text().trim();
+                            }
+                        }
+                        else {
+                            teacher = currentSubject.child(0).child(0).child(0).text().trim() + " ";
+                            for (int t = 1; t < childrenSize - 1; t++) {
+                                teacher += currentSubject.child(0).child(0).child(t).text().trim() + " ";
+                            }
                         }
                     }
 
