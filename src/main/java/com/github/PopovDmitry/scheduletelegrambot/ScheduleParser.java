@@ -73,7 +73,7 @@ public class ScheduleParser {
                         }
                         else {
                             teacher = currentSubject.child(0).child(0).child(0).text().trim() + " ";
-                            for (int t = 1; t < childrenSize - 1; t++) {
+                            for (int t = 1; t < childrenSize; t++) {
                                 teacher += currentSubject.child(0).child(0).child(t).text().trim() + " ";
                             }
                         }
