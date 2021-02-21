@@ -1,5 +1,6 @@
 package com.github.PopovDmitry.scheduletelegrambot;
 
+import lombok.Getter;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -12,9 +13,19 @@ public class ScheduleParser {
 
     private String url = "https://nstu.ru/studies/schedule/schedule_classes";
     private List<String> faculties = new ArrayList<>();
+    @Getter
     private Map<String, String> groups = new Hashtable<>();
 
-    public void parseGroups() throws IOException {
+    public ScheduleParser() {
+        try {
+            parseGroups();
+        }
+        catch (IOException exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    private void parseGroups() throws IOException {
         Document document = Jsoup.connect(url).get();
 
         Elements elements = document.getElementsByAttributeValue("class",
@@ -121,7 +132,7 @@ public class ScheduleParser {
         StringBuilder schedule = new StringBuilder();
         for(int i = 0; i < Day.values().length; i++) {
             schedule.append("------")
-                    .append(Day.Ru.values()[i].toString())
+                    .append(Day.values()[i].toString())
                     .append("------")
                     .append("\n")
                     .append(parseSchedule(groupName, Day.values()[i]))

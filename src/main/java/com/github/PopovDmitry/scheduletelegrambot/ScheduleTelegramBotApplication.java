@@ -11,7 +11,7 @@ public class ScheduleTelegramBotApplication{
 		SpringApplication.run(ScheduleTelegramBotApplication.class, args);
 
 		ScheduleParser scheduleParser = new ScheduleParser();
-		scheduleParser.parseGroups();
+		//scheduleParser.parseGroups();
 		//System.out.println(scheduleParser.parseSchedule("АВТ-809", Day.THURSDAY));
 		//System.out.println(scheduleParser.weekSchedule("АВТ-809"));
 
