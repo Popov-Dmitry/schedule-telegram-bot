@@ -112,7 +112,7 @@ public class ScheduleTelegramBot extends TelegramWebhookBot {
                 keyboardButton4.setText(Day.ЧЕТВЕРГ.toString());
                 keyboardButton5.setText(Day.ПЯТНИЦА.toString());
                 keyboardButton6.setText(Day.СУББОТА.toString());
-                keyboardButton7.setText("Неделя");
+                keyboardButton7.setText("НЕДЕЛЯ");
 
                 keyboardRow1.add(keyboardButton1);
                 keyboardRow1.add(keyboardButton2);
@@ -144,12 +144,12 @@ public class ScheduleTelegramBot extends TelegramWebhookBot {
             }
 
         }
-        else if(inputText.equals(Day.ПОНЕДЕЛЬНИК.toString()) ||
-                inputText.equals(Day.ВТОРНИК.toString()) ||
-                inputText.equals(Day.СРЕДА.toString()) ||
-                inputText.equals(Day.ЧЕТВЕРГ.toString()) ||
-                inputText.equals(Day.ПЯТНИЦА.toString()) ||
-                inputText.equals(Day.СУББОТА.toString())) {
+        else if(inputText.equalsIgnoreCase(Day.ПОНЕДЕЛЬНИК.toString()) ||
+                inputText.equalsIgnoreCase(Day.ВТОРНИК.toString()) ||
+                inputText.equalsIgnoreCase(Day.СРЕДА.toString()) ||
+                inputText.equalsIgnoreCase(Day.ЧЕТВЕРГ.toString()) ||
+                inputText.equalsIgnoreCase(Day.ПЯТНИЦА.toString()) ||
+                inputText.equalsIgnoreCase(Day.СУББОТА.toString())) {
             users.get(chatId).setState(UserState.SHOW_SCHEDULE);
             SendMessage sendMessage = new SendMessage();
             sendMessage.setChatId(String.valueOf(chatId));
@@ -159,7 +159,17 @@ public class ScheduleTelegramBot extends TelegramWebhookBot {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
+        }
+        else if(inputText.equalsIgnoreCase("НЕДЕЛЯ")) {
+            users.get(chatId).setState(UserState.SHOW_SCHEDULE);
+            SendMessage sendMessage = new SendMessage();
+            sendMessage.setChatId(String.valueOf(chatId));
+            try {
+                sendMessage.setText(scheduleParser.weekSchedule(users.get(chatId).getGroup()));
+                execute(sendMessage);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         return null;
