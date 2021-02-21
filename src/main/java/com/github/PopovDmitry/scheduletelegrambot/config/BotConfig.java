@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
+
 @Configuration
 @PropertySource("classpath:bot.properties")
 public class BotConfig {
@@ -25,6 +26,6 @@ public class BotConfig {
         bot.setBotToken(botToken);
         bot.setBotUsername(botUsername);
         bot.setWebHookPath(webHookPath);
-        return new ScheduleTelegramBot();
+        return bot;
     }
 }

@@ -47,12 +47,15 @@ public class ScheduleTelegramBot extends TelegramWebhookBot {
             SendMessage message = new SendMessage();
             message.setChatId(update.getMessage().getChatId().toString());
             message.setText("Hello from Java!");
+            //message.setParseMode("html");
             System.out.println("start");
 
             try {
                 execute(message);
+                System.out.println("try");
             }
             catch (TelegramApiException exception) {
+                System.out.println("catch");
                 exception.printStackTrace();
             }
         }
